@@ -56,89 +56,86 @@ func menu(){
 }
 
 func manualPlacement(){
-//    var decision = ""
-//    for ship in ships {
-//        print(player.battleshipBoard)
-//        print("Please enter the starting cell and direction (h for horizontally or v for vertically) to place the \(ship). (ex: D 2 h)")
-//        print("")
-//        if let choice = readLine(){
-//            decision = choice
-//            var rowInd = decision.startIndex
-//            var colInd = decision.index(decision.startIndex, offsetBy: 2)
-//            var directionInd = decision.index(decision.startIndex, offsetBy: 4)
-//            var shipPlaced = false
-//            while !shipPlaced{
-//                if player.placeShip(Int(String(decision[rowInd]))!, Int(String(decision[colInd]))!, decision[directionInd], shipType: ship, player: &player){
-//                    shipPlaced = true
-//                }
-//                else {
-//                    print(player.battleshipBoard)
-//                    print("Please enter the starting cell and direction (h for horizontally or v for vertically) to place the \(ship). (ex: D 2 h)")
-//                    print("")
-//                    if let choice = readLine(){
-//                        decision = choice
-//                        rowInd = decision.startIndex
-//                        colInd = decision.index(decision.startIndex, offsetBy: 2)
-//                        directionInd = decision.index(decision.startIndex, offsetBy: 4)
-//                        shipPlaced = false
-//                    }
-//                }
-//            }
-//            
-//        }
-//    }
-//    print(player.battleshipBoard)
-    
-    var rowInd: UInt32 = 0
-    var colInd: UInt32 = 0
-    var vertOrHorizInt: UInt32 = 0
-    var vertOrHoriz: Character
-    var shipPlaced = false
-    
+    var decision = ""
     for ship in ships {
-        print("placing computer ships")
-        rowInd = arc4random_uniform(numRows)
-        colInd = arc4random_uniform(numRows)
-        vertOrHorizInt = arc4random_uniform(2)
-        
-        print("rowind: \(rowInd)")
-        print("colInd: \(colInd)")
-        print("vert or horiz: \(vertOrHorizInt)")
-        
-        if vertOrHorizInt == 1{
-            vertOrHoriz = "v"
-        } else {
-            vertOrHoriz = "h"
-        }
-        shipPlaced = false
-        while !shipPlaced{
-            if computer.placeShip(Int(rowInd), Int(colInd), vertOrHoriz, shipType: ship, player: &computer){
-                shipPlaced = true
-                
-            } else {
-                print("computer ships ran into an issue")
-                rowInd = arc4random_uniform(numRows)
-                colInd = arc4random_uniform(numRows)
-                vertOrHorizInt = arc4random_uniform(2)
-                if vertOrHorizInt == 1{
-                    vertOrHoriz = "v"
-                } else {
-                    vertOrHoriz = "h"
+        print(player.battleshipBoard)
+        print("Please enter the starting cell and direction (h for horizontally or v for vertically) to place the \(ship). (ex: D 2 h)")
+        print("")
+        if let choice = readLine(){
+            decision = choice
+            var rowInd = decision.startIndex
+            var colInd = decision.index(decision.startIndex, offsetBy: 2)
+            var directionInd = decision.index(decision.startIndex, offsetBy: 4)
+            var shipPlaced = false
+            while !shipPlaced{
+                if player.placeShip(Int(String(decision[rowInd]))!, Int(String(decision[colInd]))!, decision[directionInd], shipType: ship, player: &player, random: false){
+                    shipPlaced = true
                 }
-                shipPlaced = false
+                else {
+                    print(player.battleshipBoard)
+                    print("Please enter the starting cell and direction (h for horizontally or v for vertically) to place the \(ship). (ex: D 2 h)")
+                    print("")
+                    if let choice = readLine(){
+                        decision = choice
+                        rowInd = decision.startIndex
+                        colInd = decision.index(decision.startIndex, offsetBy: 2)
+                        directionInd = decision.index(decision.startIndex, offsetBy: 4)
+                        shipPlaced = false
+                    }
+                }
             }
             
         }
     }
-    print(computer.battleshipBoard)
-    
-    
+    print(player.battleshipBoard)
+    randomPlacement(playerManual: true)
     
 }
 
 func randomPlacement(playerManual: Bool){
     if playerManual {
+        var rowInd: UInt32 = 0
+        var colInd: UInt32 = 0
+        var vertOrHorizInt: UInt32 = 0
+        var vertOrHoriz: Character
+        var shipPlaced = false
         
+        for ship in ships {
+            print("placing computer ships")
+            rowInd = arc4random_uniform(numRows)
+            colInd = arc4random_uniform(numRows)
+            vertOrHorizInt = arc4random_uniform(2)
+            
+            print("rowind: \(rowInd)")
+            print("colInd: \(colInd)")
+            print("vert or horiz: \(vertOrHorizInt)")
+            
+            if vertOrHorizInt == 1{
+                vertOrHoriz = "v"
+            } else {
+                vertOrHoriz = "h"
+            }
+            shipPlaced = false
+            while !shipPlaced{
+                if computer.placeShip(Int(rowInd), Int(colInd), vertOrHoriz, shipType: ship, player: &computer, random: true){
+                    shipPlaced = true
+                    
+                } else {
+                    print("computer ships ran into an issue")
+                    rowInd = arc4random_uniform(numRows)
+                    colInd = arc4random_uniform(numRows)
+                    vertOrHorizInt = arc4random_uniform(2)
+                    if vertOrHorizInt == 1{
+                        vertOrHoriz = "v"
+                    } else {
+                        vertOrHoriz = "h"
+                    }
+                    shipPlaced = false
+                }
+                
+            }
+        }
+        print(computer.battleshipBoard)
     }
 }
 

@@ -29,7 +29,7 @@ struct Player {
     
     
     
-    func placeShip(_ row: Int, _ col: Int, _ direction: Character, shipType: ShipType, player: inout Player) -> Bool {
+    func placeShip(_ row: Int, _ col: Int, _ direction: Character, shipType: ShipType, player: inout Player, random: Bool) -> Bool {
         var length: Int
         var symbol:Character
         var shipArr =  [Cell]()
@@ -57,12 +57,16 @@ struct Player {
             let safeRow = row + length-1
             while terminate != length{
                 if player.battleshipBoard.grid[safe:col]![safe:safeRow]?.symbol == nil {
-                    print("That placement is not on the board! Try again.")
-                    print("")
+                    if !random {
+                        print("That placement is not on the board! Try again.")
+                        print("")
+                    }
                     return false
                 } else if player.battleshipBoard.grid[col][newRow].description != "-"{
-                    print("That ship overlaps with another! Try again.")
-                    print("")
+                    if !random {
+                        print("That ship overlaps with another! Try again.")
+                        print("")
+                    }
                     terminate = length
                     return false
                 } else{
@@ -80,12 +84,16 @@ struct Player {
             let safeCol = col + length-1
             while terminate != length{
                 if player.battleshipBoard.grid[safe:safeCol]?[safe:row]!.symbol == nil{
-                    print("That placement is not on the board! Try again.")
-                    print("")
+                    if !random {
+                        print("That placement is not on the board! Try again.")
+                        print("")
+                    }
                     return false
                 } else if player.battleshipBoard.grid[newCol][row].description != "-"{
-                    print("That ship overlaps with another! Try again.")
-                    print("")
+                    if !random {
+                        print("That ship overlaps with another! Try again.")
+                        print("")
+                    }
                     terminate = length
                     return false
                 } else{

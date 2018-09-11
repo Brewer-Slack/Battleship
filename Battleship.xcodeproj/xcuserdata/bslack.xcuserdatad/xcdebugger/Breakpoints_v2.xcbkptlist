@@ -15,7 +15,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "58"
             endingLineNumber = "58"
-            landmarkName = "placeShip(_:_:_:shipType:player:)"
+            landmarkName = "placeShip(_:_:_:shipType:player:random:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -31,7 +31,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "63"
             endingLineNumber = "63"
-            landmarkName = "placeShip(_:_:_:shipType:player:)"
+            landmarkName = "placeShip(_:_:_:shipType:player:random:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -47,7 +47,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "78"
             endingLineNumber = "78"
-            landmarkName = "placeShip(_:_:_:shipType:player:)"
+            landmarkName = "placeShip(_:_:_:shipType:player:random:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -63,7 +63,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "102"
             endingLineNumber = "102"
-            landmarkName = "placeShip(_:_:_:shipType:player:)"
+            landmarkName = "placeShip(_:_:_:shipType:player:random:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
