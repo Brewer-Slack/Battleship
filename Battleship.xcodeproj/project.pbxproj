@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5BBE81AF2148852A0029E174 /* Turn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBE81AE2148852A0029E174 /* Turn.swift */; };
+		5BBE81B121488B3A0029E174 /* Stats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBE81B021488B3A0029E174 /* Stats.swift */; };
 		5BD4A47F214492F8007659A3 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD4A47E214492F8007659A3 /* main.swift */; };
 		5BD4A48621449382007659A3 /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD4A48521449382007659A3 /* Coordinate.swift */; };
 		5BD4A4882144952F007659A3 /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD4A4872144952F007659A3 /* Cell.swift */; };
@@ -31,6 +32,7 @@
 
 /* Begin PBXFileReference section */
 		5BBE81AE2148852A0029E174 /* Turn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Turn.swift; sourceTree = "<group>"; };
+		5BBE81B021488B3A0029E174 /* Stats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stats.swift; sourceTree = "<group>"; };
 		5BD4A47B214492F8007659A3 /* Battleship */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Battleship; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BD4A47E214492F8007659A3 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		5BD4A48521449382007659A3 /* Coordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinate.swift; sourceTree = "<group>"; };
@@ -77,6 +79,7 @@
 				5BD4A4872144952F007659A3 /* Cell.swift */,
 				5BD4A48B21449856007659A3 /* Ship.swift */,
 				5BD4A48F214499D7007659A3 /* Player.swift */,
+				5BBE81B021488B3A0029E174 /* Stats.swift */,
 				5BD4A48D21449888007659A3 /* ShipType.swift */,
 				5BD4A48921449637007659A3 /* BattleshipBoard.swift */,
 			);
@@ -141,6 +144,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5BD4A48A21449637007659A3 /* BattleshipBoard.swift in Sources */,
+				5BBE81B121488B3A0029E174 /* Stats.swift in Sources */,
 				5BD4A48E21449888007659A3 /* ShipType.swift in Sources */,
 				5BD4A47F214492F8007659A3 /* main.swift in Sources */,
 				5BD4A48621449382007659A3 /* Coordinate.swift in Sources */,
