@@ -53,6 +53,13 @@ func menu(){
     } else{ // choice == 2
         randomPlacement(playerManual: false)
     }
+    
+    print(player.battleshipBoard)
+    print(computer.battleshipBoard)
+    
+    while !checkGameOver() {
+        <#code#>
+    }
 }
 
 func manualPlacement(){
@@ -93,6 +100,7 @@ func manualPlacement(){
 }
 
 func randomPlacement(playerManual: Bool){
+    // if player manually placed pieces, randomly place computer pieces
     if playerManual {
         var rowInd: UInt32 = 0
         var colInd: UInt32 = 0
@@ -101,14 +109,10 @@ func randomPlacement(playerManual: Bool){
         var shipPlaced = false
         
         for ship in ships {
-            print("placing computer ships")
+            
             rowInd = arc4random_uniform(numRows)
             colInd = arc4random_uniform(numRows)
             vertOrHorizInt = arc4random_uniform(2)
-            
-            print("rowind: \(rowInd)")
-            print("colInd: \(colInd)")
-            print("vert or horiz: \(vertOrHorizInt)")
             
             if vertOrHorizInt == 1{
                 vertOrHoriz = "v"
@@ -121,7 +125,7 @@ func randomPlacement(playerManual: Bool){
                     shipPlaced = true
                     
                 } else {
-                    print("computer ships ran into an issue")
+                    
                     rowInd = arc4random_uniform(numRows)
                     colInd = arc4random_uniform(numRows)
                     vertOrHorizInt = arc4random_uniform(2)
@@ -135,8 +139,78 @@ func randomPlacement(playerManual: Bool){
                 
             }
         }
-        print(computer.battleshipBoard)
+        // player is also placing randomly
+    } else {
+        var rowInd: UInt32 = 0
+        var colInd: UInt32 = 0
+        var vertOrHorizInt: UInt32 = 0
+        var vertOrHoriz: Character
+        var shipPlaced = false
+        
+        for ship in ships {            
+            rowInd = arc4random_uniform(numRows)
+            colInd = arc4random_uniform(numRows)
+            vertOrHorizInt = arc4random_uniform(2)
+            
+            if vertOrHorizInt == 1{
+                vertOrHoriz = "v"
+            } else {
+                vertOrHoriz = "h"
+            }
+            shipPlaced = false
+            while !shipPlaced{
+                if player.placeShip(Int(rowInd), Int(colInd), vertOrHoriz, shipType: ship, player: &player, random: true){
+                    shipPlaced = true
+                    
+                } else {
+                    
+                    rowInd = arc4random_uniform(numRows)
+                    colInd = arc4random_uniform(numRows)
+                    vertOrHorizInt = arc4random_uniform(2)
+                    if vertOrHorizInt == 1{
+                        vertOrHoriz = "v"
+                    } else {
+                        vertOrHoriz = "h"
+                    }
+                    shipPlaced = false
+                }
+                
+            }
+        }
+        for ship in ships {
+            rowInd = arc4random_uniform(numRows)
+            colInd = arc4random_uniform(numRows)
+            vertOrHorizInt = arc4random_uniform(2)
+    
+            if vertOrHorizInt == 1{
+                vertOrHoriz = "v"
+            } else {
+                vertOrHoriz = "h"
+            }
+            shipPlaced = false
+            while !shipPlaced{
+                if computer.placeShip(Int(rowInd), Int(colInd), vertOrHoriz, shipType: ship, player: &computer, random: true){
+                    shipPlaced = true
+                } else {
+                    
+                    rowInd = arc4random_uniform(numRows)
+                    colInd = arc4random_uniform(numRows)
+                    vertOrHorizInt = arc4random_uniform(2)
+                    if vertOrHorizInt == 1{
+                        vertOrHoriz = "v"
+                    } else {
+                        vertOrHoriz = "h"
+                    }
+                    shipPlaced = false
+                }
+                
+            }
+        }
     }
+}
+
+func checkGameOver() -> Bool{
+    return false
 }
 
 

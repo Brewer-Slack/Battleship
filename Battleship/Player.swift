@@ -107,9 +107,13 @@ struct Player {
         }
         // add shipArr cells to ship here
         player.ships.append(Ship(name: shipType, length: length, occupiedCells: shipArr, symbol: symbol, hits: 0))
-        return true // PUT SO I CAN CODE WITHOUT BEING YELLED AT BY INTERPRETER
+        return true
     }
     
+    
+    func makeMove(row: Int, col: Int){
+        
+    }
     
     
     
