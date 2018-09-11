@@ -8,6 +8,13 @@
 
 import Foundation
 
+// https://morgandavison.com/2016/02/26/prevent-array-index-out-of-range-error-in-swift/
+extension Array {
+    subscript (safe index: Int) -> Element? {
+        return indices ~= index ? self[index] : nil
+    }
+}
+
 struct Player {
     
     // MARK: - Properties
@@ -18,6 +25,8 @@ struct Player {
         self.battleshipBoard = battleshipBoard
         self.ships = ships
     }
+    
+    
     
     
     func placeShip(_ row: Int, _ col: Int, _ direction: Character, shipType: ShipType, player: inout Player) -> Bool {
@@ -45,15 +54,20 @@ struct Player {
         if direction == "h"{
             var terminate = 0
             var newRow = row + terminate
+            let safeRow = row + length-1
             while terminate != length{
-                if player.battleshipBoard.grid[col][newRow].description != "-"{
+                if player.battleshipBoard.grid[safe:col]![safe:safeRow]?.symbol == nil {
+                    print("That placement is not on the board! Try again.")
+                    print("")
+                    return false
+                } else if player.battleshipBoard.grid[col][newRow].description != "-"{
                     print("That ship overlaps with another! Try again.")
+                    print("")
                     terminate = length
                     return false
                 } else{
                     player.battleshipBoard.grid[col][newRow].symbol = symbol
                     shipArr.append(Cell(coordinates: Coordinate(row: newRow, col: col), symbol: symbol))
-                    print("shipArr: \(shipArr) ")
                     terminate += 1
                     newRow += 1
                     
@@ -63,10 +77,15 @@ struct Player {
         } else { //direction == "v"
             var terminate = 0
             var newCol = col + terminate
+            let safeCol = col + length-1
             while terminate != length{
-                
-                if player.battleshipBoard.grid[newCol][row].description != "-"{
+                if player.battleshipBoard.grid[safe:safeCol]![safe:row]?.symbol == nil{
+                    print("That placement is not on the board! Try again.")
+                    print("")
+                    return false
+                } else if player.battleshipBoard.grid[newCol][row].description != "-"{
                     print("That ship overlaps with another! Try again.")
+                    print("")
                     terminate = length
                     return false
                 } else{
@@ -80,8 +99,10 @@ struct Player {
         }
         // add shipArr cells to ship here
         player.ships.append(Ship(name: shipType, length: length, occupiedCells: shipArr, symbol: symbol, hits: 0))
-        print("player's ships: \(player.ships)")
         return true // PUT SO I CAN CODE WITHOUT BEING YELLED AT BY INTERPRETER
     }
+    
+    
+    
     
 }

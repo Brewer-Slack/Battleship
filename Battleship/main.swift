@@ -13,6 +13,7 @@ import Foundation
 
 // MARK - Properties
 let ships = [ShipType.Carrier, ShipType.Battleship, ShipType.Cruiser, ShipType.Submarine, ShipType.Destroyer]
+var numRows: UInt32 = 10
 
 var computerBoard = BattleshipBoard(numRows: 10, numCols: 10)
 var playerBoard = BattleshipBoard(numRows: 10, numCols: 10)
@@ -55,24 +56,30 @@ func menu(){
 }
 
 func manualPlacement(){
+    var decision = ""
     for ship in ships {
-        print("Please enter the starting cell and direction (h for horizontally or v for vertically) to place the \(ship). (ex: 0 2 h)")
+        print(player.battleshipBoard)
+        print("Please enter the starting cell and direction (h for horizontally or v for vertically) to place the \(ship). (ex: D 2 h)")
+        print("")
         if let choice = readLine(){
-            var rowInd = choice.startIndex
-            var colInd = choice.index(choice.startIndex, offsetBy: 2)
-            var directionInd = choice.index(choice.startIndex, offsetBy: 4)
+            decision = choice
+            var rowInd = decision.startIndex
+            var colInd = decision.index(decision.startIndex, offsetBy: 2)
+            var directionInd = decision.index(decision.startIndex, offsetBy: 4)
             var shipPlaced = false
             while !shipPlaced{
-                if player.placeShip(Int(String(choice[rowInd]))!, Int(String(choice[colInd]))!, choice[directionInd], shipType: ship, player: &player){
+                if player.placeShip(Int(String(decision[rowInd]))!, Int(String(decision[colInd]))!, decision[directionInd], shipType: ship, player: &player){
                     shipPlaced = true
-                    print(player.battleshipBoard)
                 }
                 else {
+                    print(player.battleshipBoard)
                     print("Please enter the starting cell and direction (h for horizontally or v for vertically) to place the \(ship). (ex: D 2 h)")
+                    print("")
                     if let choice = readLine(){
-                        rowInd = choice.startIndex
-                        colInd = choice.index(choice.startIndex, offsetBy: 2)
-                        directionInd = choice.index(choice.startIndex, offsetBy: 4)
+                        decision = choice
+                        rowInd = decision.startIndex
+                        colInd = decision.index(decision.startIndex, offsetBy: 2)
+                        directionInd = decision.index(decision.startIndex, offsetBy: 4)
                         shipPlaced = false
                     }
                 }
@@ -80,10 +87,41 @@ func manualPlacement(){
             
         }
     }
+    print(player.battleshipBoard)
+    
+    var rowInd: UInt32 = 0
+    var colInd: UInt32 = 0
+    var vertOrHorizInt: UInt32 = 0
+    var vertOrHoriz: Character
+    
+    for ship in ships {
+        print("placing computer ships")
+        rowInd = arc4random_uniform(numRows-1)
+        colInd = arc4random_uniform(numRows-1)
+        vertOrHorizInt = arc4random_uniform(2)
+        
+        if vertOrHorizInt == 1{
+            vertOrHoriz = "v"
+        } else {
+            vertOrHoriz = "h"
+        }
+        
+        if computer.placeShip(Int(rowInd), Int(colInd), vertOrHoriz, shipType: ship, player: &computer){
+            print("randomly placed computer ships successfully")
+        } else {
+            print("computer ships ran into an issue")
+        }
+    }
+    
+    
+    
+    
 }
 
 func randomPlacement(playerManual: Bool){
-    
+    if playerManual {
+        
+    }
 }
 
 
