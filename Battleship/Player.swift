@@ -111,7 +111,7 @@ struct Player {
     }
     
     
-    func makeMove(row: Int, col: Int){
+    func makeMove(row: Int, col: Int, player: inout Player, attacking player2: inout Player) -> Bool{
         
     }
     

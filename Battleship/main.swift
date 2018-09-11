@@ -24,14 +24,14 @@ var player = Player(battleshipBoard: playerBoard, ships: playerShips)
 var computer = Player(battleshipBoard: computerBoard, ships: computerShips)
 
 func gameLoop() {
-    print("Welcome to Battleship!")
-    print("")
     rules()
     menu()
-    
+    startGame()
 }
 
 func rules(){
+    print("Welcome to Battleship!")
+    print("")
     print("Rules of the Game:")
     print("1. This is a two player game.")
     print("2. Player1 is you and Player2 is the computer.")
@@ -53,12 +53,44 @@ func menu(){
     } else{ // choice == 2
         randomPlacement(playerManual: false)
     }
-    
-    print(player.battleshipBoard)
-    print(computer.battleshipBoard)
+}
+
+func startGame(){
+    var turn: Turn = decideStart()
+    var rowInd: String.Index
+    var colInd: String.Index
+    var row: UInt32
+    var col: UInt32
     
     while !checkGameOver() {
-        <#code#>
+        if turn == Turn.player{
+            print("Player 1's Board:")
+            print(player.battleshipBoard)
+            print("Player 2's Board:")
+            print(computerBoard)
+            print("")
+            print("Enter a move. (ex D 2)")
+            if let choice = readLine(){
+                rowInd = choice.startIndex
+                colInd = choice.index(choice.startIndex, offsetBy: 2)
+                if player.makeMove(row: Int(String(choice[rowInd]))!, col: Int(String(choice[colInd]))!, player: &player, attacking: &computer) {
+                    
+                }
+                
+                turn = Turn.computer
+            }
+            
+        } else {
+            print("It is Player 2's turn!")
+            row = arc4random_uniform(numRows)
+            col = arc4random_uniform(numRows)
+            
+            if computer.makeMove(row: Int(row), col: Int(col), player: &computer, attacking: &player) {
+                
+            }
+            
+            turn = Turn.player
+        }
     }
 }
 
@@ -209,8 +241,19 @@ func randomPlacement(playerManual: Bool){
     }
 }
 
-func checkGameOver() -> Bool{
+func checkGameOver() -> Bool {
     return false
+}
+
+func decideStart() -> Turn {
+    let randInt = arc4random_uniform(2)
+    if randInt == 0{
+        print("Player 1 will start!")
+        return Turn.player
+    } else {
+        print("Player 2 will start!")
+        return Turn.computer
+    }
 }
 
 
