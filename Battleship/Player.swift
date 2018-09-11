@@ -79,7 +79,7 @@ struct Player {
             var newCol = col + terminate
             let safeCol = col + length-1
             while terminate != length{
-                if player.battleshipBoard.grid[safe:safeCol]![safe:row]?.symbol == nil{
+                if player.battleshipBoard.grid[safe:safeCol]?[safe:row]!.symbol == nil{
                     print("That placement is not on the board! Try again.")
                     print("")
                     return false
@@ -90,7 +90,7 @@ struct Player {
                     return false
                 } else{
                     player.battleshipBoard.grid[newCol][row].symbol = symbol
-                    shipArr.append(Cell(coordinates: Coordinate(row: row, col: col), symbol: symbol))
+                    shipArr.append(Cell(coordinates: Coordinate(row: row, col: newCol), symbol: symbol))
                     terminate += 1
                     newCol += 1
                     
