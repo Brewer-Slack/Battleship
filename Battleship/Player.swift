@@ -23,6 +23,7 @@ struct Player {
     func placeShip(_ row: Int, _ col: Int, _ direction: Character, shipType: ShipType, player: inout Player) -> Bool {
         var length: Int
         var symbol:Character
+        var shipArr =  [Cell]()
         
         switch shipType {
         case ShipType.Carrier:
@@ -43,7 +44,6 @@ struct Player {
         }
         if direction == "h"{
             var terminate = 0
-            var shipArr =  [Cell]()
             var newRow = row + terminate
             while terminate != length{
                 if player.battleshipBoard.grid[col][newRow].description != "-"{
@@ -62,7 +62,6 @@ struct Player {
             
         } else { //direction == "v"
             var terminate = 0
-            var shipArr =  [Cell]()
             var newCol = col + terminate
             while terminate != length{
                 
@@ -73,7 +72,6 @@ struct Player {
                 } else{
                     player.battleshipBoard.grid[newCol][row].symbol = symbol
                     shipArr.append(Cell(coordinates: Coordinate(row: row, col: col), symbol: symbol))
-                    print("shipArr: \(shipArr) ")
                     terminate += 1
                     newCol += 1
                     
@@ -81,6 +79,8 @@ struct Player {
             }
         }
         // add shipArr cells to ship here
+        player.ships.append(Ship(name: shipType, length: length, occupiedCells: shipArr, symbol: symbol, hits: 0))
+        print("player's ships: \(player.ships)")
         return true // PUT SO I CAN CODE WITHOUT BEING YELLED AT BY INTERPRETER
     }
     
