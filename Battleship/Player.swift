@@ -20,10 +20,31 @@ struct Player {
     // MARK: - Properties
     var battleshipBoard: BattleshipBoard
     var ships: [Ship]
+    var hiddenBoard: BattleshipBoard?
+    var remainingShips: Int
     
-    init(battleshipBoard: BattleshipBoard, ships: [Ship]) {
+    var hits: Int
+    var misses: Int
+    var totalShots: Int
+    
+    var statsDescription: String{
+        var stats = ""
+        stats += "Hits: \(hits)\n"
+        stats += "Misses: \(misses)\n"
+        stats += "Total Shots: \(totalShots)\n"
+        stats += "Hits to Misses Ratio: \(hits/(hits + misses)*100)%"
+        return stats
+    }
+    
+    
+    init(battleshipBoard: BattleshipBoard, ships: [Ship], hiddenBoard: BattleshipBoard?) {
         self.battleshipBoard = battleshipBoard
         self.ships = ships
+        self.hiddenBoard = hiddenBoard
+        self.hits = 0
+        self.misses = 0
+        self.totalShots = 0
+        self.remainingShips = 5
     }
     
     
@@ -111,10 +132,57 @@ struct Player {
     }
     
     
-    func makeMove(row: Int, col: Int, player: inout Player, attacking player2: inout Player) -> Bool{
+    func makeMove(row: Int, col: Int, player: inout Player, attacking player2: inout Player, isHuman: Bool) -> Bool{
+        if player2.battleshipBoard.grid[col][row].symbol == "*" || player2.hiddenBoard?.grid[col][row].symbol == "m"{
+            print("(\(col),\(row)) has already been hit! Try again.")
+            return false
+        } else if player2.battleshipBoard.grid[col][row].symbol == "-"{
+            print("(\(col),\(row)) is a miss!")
+            player2.hiddenBoard?.grid[col][row].symbol = "m"
+            player2.battleshipBoard.grid[col][row].symbol = "m"
+            player.totalShots += 1
+            player.misses += 1
+            return true
+        }
+        else if (player2.battleshipBoard.grid[col][row].symbol == "c" || player2.battleshipBoard.grid[col][row].symbol == "b" || player2.battleshipBoard.grid[col][row].symbol == "r" || player2.battleshipBoard.grid[col][row].symbol == "s" || player2.battleshipBoard.grid[col][row].symbol == "d"){
+            for ship in player2.ships{
+                for i in 0...ship.occupiedCells.count-1{
+                    if ship.occupiedCells[i].coordinates.row == row && ship.occupiedCells[i].coordinates.col == col && ship.occupiedCells[i].symbol != "*"{
+                        
+                        for i in 0...player2.ships.count-1{
+                            if ship.name == player2.ships[i].name{
+                                player2.ships[i].hits += 1
+                            }
+                        }
+                        player.hits += 1
+                        player.totalShots += 1
+                        
+                        // reveal ship
+                        if ship.hits+1 == ship.length{
+                            if isHuman {
+                                for cell in ship.occupiedCells{
+                                    let changeCol = cell.coordinates.col
+                                    let changeRow = cell.coordinates.row
+                                    player2.hiddenBoard?.grid[changeCol][changeRow].symbol = cell.symbol
+                                    player2.battleshipBoard.grid[changeCol][changeRow].symbol = cell.symbol
+                                }
+                            }
+                            player2.remainingShips -= 1
+                            print("A \(ship.name) has been sunk!")
+                        }else{
+                        
+                            player2.hiddenBoard?.grid[col][row].symbol = "*"
+                            player2.battleshipBoard.grid[col][row].symbol = "*"
+                            print("(\(col),\(row)) is a hit!")
+                        }
+                        return true
+                    }
+                }
+            }
+        }
         
+        return true
     }
-    
     
     
 }

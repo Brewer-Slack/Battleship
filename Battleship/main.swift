@@ -16,17 +16,27 @@ let ships = [ShipType.Carrier, ShipType.Battleship, ShipType.Cruiser, ShipType.S
 var numRows: UInt32 = 10
 
 var computerBoard = BattleshipBoard(numRows: 10, numCols: 10)
+var computerHiddenBoard = BattleshipBoard(numRows: 10, numCols: 10)
 var playerBoard = BattleshipBoard(numRows: 10, numCols: 10)
+var playerHiddenBoard = BattleshipBoard(numRows: 10, numCols: 10)
 var playerShips = [Ship]()
 var computerShips = [Ship]()
 
-var player = Player(battleshipBoard: playerBoard, ships: playerShips)
-var computer = Player(battleshipBoard: computerBoard, ships: computerShips)
+var player = Player(battleshipBoard: playerBoard, ships: playerShips, hiddenBoard: playerHiddenBoard)
+var computer = Player(battleshipBoard: computerBoard, ships: computerShips, hiddenBoard: computerHiddenBoard)
+
+
 
 func gameLoop() {
     rules()
     menu()
     startGame()
+    print("Player 1 stats:")
+    print(player.statsDescription)
+    print("______________________")
+    print("Player 2 stats:")
+    print(computer.statsDescription)
+    
 }
 
 func rules(){
@@ -61,23 +71,36 @@ func startGame(){
     var colInd: String.Index
     var row: UInt32
     var col: UInt32
-    
+
     while !checkGameOver() {
         if turn == Turn.player{
             print("Player 1's Board:")
             print(player.battleshipBoard)
             print("Player 2's Board:")
-            print(computerBoard)
+            print(computer.hiddenBoard!)
+            
+            print("board to cheat with")
+            print(computer.battleshipBoard)
+            
             print("")
             print("Enter a move. (ex D 2)")
             if let choice = readLine(){
                 rowInd = choice.startIndex
                 colInd = choice.index(choice.startIndex, offsetBy: 2)
-                if player.makeMove(row: Int(String(choice[rowInd]))!, col: Int(String(choice[colInd]))!, player: &player, attacking: &computer) {
-                    
+                var moveMade = false
+                while !moveMade{
+                    if player.makeMove(row: Int(String(choice[rowInd]))!, col: Int(String(choice[colInd]))!, player: &player, attacking: &computer, isHuman: true) {
+                        turn = Turn.computer
+                        moveMade = true
+                        
+                    } else {
+                        if let choice = readLine(){
+                            rowInd = choice.startIndex
+                            colInd = choice.index(choice.startIndex, offsetBy: 2)
+                            moveMade = false
+                        }
+                    }
                 }
-                
-                turn = Turn.computer
             }
             
         } else {
@@ -85,7 +108,7 @@ func startGame(){
             row = arc4random_uniform(numRows)
             col = arc4random_uniform(numRows)
             
-            if computer.makeMove(row: Int(row), col: Int(col), player: &computer, attacking: &player) {
+            if computer.makeMove(row: Int(row), col: Int(col), player: &computer, attacking: &player, isHuman: false) {
                 
             }
             
@@ -213,7 +236,7 @@ func randomPlacement(playerManual: Bool){
             rowInd = arc4random_uniform(numRows)
             colInd = arc4random_uniform(numRows)
             vertOrHorizInt = arc4random_uniform(2)
-    
+            
             if vertOrHorizInt == 1{
                 vertOrHoriz = "v"
             } else {
@@ -242,7 +265,17 @@ func randomPlacement(playerManual: Bool){
 }
 
 func checkGameOver() -> Bool {
-    return false
+    if player.remainingShips == 0 {
+        print("Player 2 wins!")
+        print("")
+        return true
+    } else if computer.remainingShips == 0 {
+        print("Player 1 wins!")
+        print("")
+        return true
+    } else {
+        return false
+    }
 }
 
 func decideStart() -> Turn {
